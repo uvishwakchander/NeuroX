@@ -2,31 +2,39 @@
 <html>
 <head>
   <title>NeuroX – Different Minds, Equal Power</title>
-  <style>
-    body { font-family: Arial; background:#0f172a; color:white; padding:20px }
-    input, button { padding:10px; margin:5px }
-    .card { background:#1e293b; padding:15px; margin-top:10px; border-radius:10px }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<h1>🧠 NeuroX</h1>
-<p>Turn work into sustainable quests</p>
+<header>
+  <h1>🧠 NeuroX</h1>
+  <p class="subtitle">Work that adapts to your mind</p>
+</header>
 
-<input id="task" placeholder="Describe your task"/>
-<button onclick="addTask()">Add Quest</button>
+<section class="card">
+  <h2>🎮 Create a Quest</h2>
+  <input id="taskInput" placeholder="What do you want to work on?" />
+  <button onclick="addTask()">Add Quest</button>
+</section>
 
-<div id="tasks"></div>
+<section class="card">
+  <h2>📋 Your Quests</h2>
+  <div id="taskList"></div>
+</section>
 
-<script>
-function addTask(){
-  let task = document.getElementById("task").value;
-  let div = document.createElement("div");
-  div.className="card";
-  div.innerHTML = "🎮 Quest: " + task + "<br>XP: +10";
-  document.getElementById("tasks").appendChild(div);
-}
-</script>
+<section class="card">
+  <h2>💬 Communication Copilot</h2>
+  <textarea id="rawMessage" placeholder="Write freely..."></textarea>
+  <button onclick="clarify()">Rewrite Kindly</button>
+  <p id="clarifiedMessage"></p>
+</section>
 
+<section class="card">
+  <h2>🔥 Burnout Check</h2>
+  <button onclick="checkBurnout()">Check My Load</button>
+  <p id="burnoutStatus"></p>
+</section>
+
+<script src="app.js"></script>
 </body>
 </html>
