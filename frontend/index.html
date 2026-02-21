@@ -1,1 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NeuroX – Different Minds, Equal Power</title>
+  <style>
+    body { font-family: Arial; background:#0f172a; color:white; padding:20px }
+    input, button { padding:10px; margin:5px }
+    .card { background:#1e293b; padding:15px; margin-top:10px; border-radius:10px }
+  </style>
+</head>
+<body>
 
+<h1>🧠 NeuroX</h1>
+<p>Turn work into sustainable quests</p>
+
+<input id="task" placeholder="Describe your task"/>
+<button onclick="addTask()">Add Quest</button>
+
+<div id="tasks"></div>
+
+<script>
+function addTask(){
+  let task = document.getElementById("task").value;
+  let div = document.createElement("div");
+  div.className="card";
+  div.innerHTML = "🎮 Quest: " + task + "<br>XP: +10";
+  document.getElementById("tasks").appendChild(div);
+}
+</script>
+
+</body>
+</html>
