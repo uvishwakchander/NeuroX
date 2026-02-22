@@ -3,18 +3,14 @@ from pydantic import BaseModel
 from google import genai
 import os
 
-# -------------------------
-# INIT
-# -------------------------
 app = FastAPI()
 
+# Gemini client
 client = genai.Client(
     api_key=os.environ["GEMINI_API_KEY"]
 )
 
-# -------------------------
-# MODELS
-# -------------------------
+# ---------- MODELS ----------
 class Message(BaseModel):
     text: str
 
@@ -26,9 +22,7 @@ class BurnoutInput(BaseModel):
 class TaskInput(BaseModel):
     task: str
 
-# -------------------------
-# AI: COMMUNICATION COPILOT
-# -------------------------
+# ---------- AI: COMMUNICATION COPILOT ----------
 @app.post("/clarify")
 def clarify_message(msg: Message):
     try:
@@ -47,7 +41,6 @@ def clarify_message(msg: Message):
             """
         )
         return {"clarified": response.text}
-
     except Exception:
         return {
             "clarified": (
@@ -56,9 +49,7 @@ def clarify_message(msg: Message):
             )
         }
 
-# -------------------------
-# AI: BURNOUT DETECTION
-# -------------------------
+# ---------- AI: BURNOUT DETECTION ----------
 @app.post("/burnout")
 def burnout_check(data: BurnoutInput):
     score = (data.hours_worked / (data.breaks_taken + 1)) - data.tasks_done
@@ -66,22 +57,20 @@ def burnout_check(data: BurnoutInput):
     if score >= 6:
         return {
             "status": "🚨 High burnout risk detected.",
-            "suggestion": "Strongly recommend rest and workload reduction."
+            "suggestion": "Strongly recommend rest and reducing workload."
         }
     elif score >= 3:
         return {
-            "status": "⚠️ Moderate load detected.",
-            "suggestion": "Consider a short break or lighter task."
+            "status": "⚠️ Moderate workload detected.",
+            "suggestion": "Consider a short break 🌱"
         }
     else:
         return {
             "status": "✅ Sustainable pace.",
-            "suggestion": "Keep going gently 🌱"
+            "suggestion": "You’re doing well. Keep going gently."
         }
 
-# -------------------------
-# AI: QUEST GENERATOR
-# -------------------------
+# ---------- AI: QUEST GENERATOR ----------
 @app.post("/quest")
 def generate_quest(task: TaskInput):
     try:
@@ -89,18 +78,16 @@ def generate_quest(task: TaskInput):
             model="gemini-1.5-flash",
             contents=f"""
             Convert this task into a gentle, motivating,
-            neurodiversity-friendly quest with encouragement:
+            neurodiversity-friendly quest:
 
             Task: {task.task}
             """
         )
-
         return {
             "quest": response.text,
             "xp": 10,
             "rest_bonus": True
         }
-
     except Exception:
         return {
             "quest": f"🎯 {task.task} — take it one step at a time.",
@@ -108,9 +95,6 @@ def generate_quest(task: TaskInput):
             "rest_bonus": True
         }
 
-# -------------------------
-# HEALTH CHECK
-# -------------------------
 @app.get("/")
 def root():
     return {"NeuroX": "Different Minds. Equal Power."}
