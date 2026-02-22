@@ -1,6 +1,3 @@
-// -------------------------
-// QUEST CREATION (AI)
-// -------------------------
 async function addTask() {
   const task = document.getElementById("taskInput").value;
   if (!task) return;
@@ -14,15 +11,12 @@ async function addTask() {
   const data = await res.json();
 
   const div = document.createElement("div");
-  div.innerHTML = `${data.quest} <br>🌟 XP: +${data.xp}`;
+  div.innerHTML = `${data.quest}<br>🌟 XP: +${data.xp}`;
   document.getElementById("taskList").appendChild(div);
 
   document.getElementById("taskInput").value = "";
 }
 
-// -------------------------
-// COMMUNICATION COPILOT
-// -------------------------
 async function clarify() {
   const text = document.getElementById("rawMessage").value;
 
@@ -36,9 +30,6 @@ async function clarify() {
   document.getElementById("clarifiedMessage").innerText = data.clarified;
 }
 
-// -------------------------
-// BURNOUT CHECK
-// -------------------------
 async function checkBurnout() {
   const res = await fetch("http://localhost:8000/burnout", {
     method: "POST",
